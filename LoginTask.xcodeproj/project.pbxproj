@@ -15,6 +15,8 @@
 		13BE5AC02762917C00C5E617 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13BE5ABE2762917C00C5E617 /* LaunchScreen.storyboard */; };
 		13BE5ACB2762917D00C5E617 /* LoginTaskTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BE5ACA2762917D00C5E617 /* LoginTaskTests.swift */; };
 		13BE5AD62762917D00C5E617 /* LoginTaskUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BE5AD52762917D00C5E617 /* LoginTaskUITests.swift */; };
+		13BE5AFB276299D700C5E617 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BE5AFA276299D700C5E617 /* LoginView.swift */; };
+		13BE5B0127629ED000C5E617 /* CustomText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BE5B0027629ED000C5E617 /* CustomText.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		13BE5AD12762917D00C5E617 /* LoginTaskUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LoginTaskUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		13BE5AD52762917D00C5E617 /* LoginTaskUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTaskUITests.swift; sourceTree = "<group>"; };
 		13BE5AD72762917D00C5E617 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		13BE5AFA276299D700C5E617 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		13BE5B0027629ED000C5E617 /* CustomText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomText.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,8 +103,9 @@
 		13BE5AB22762917A00C5E617 /* LoginTask */ = {
 			isa = PBXGroup;
 			children = (
-				13BE5AB32762917A00C5E617 /* AppDelegate.swift */,
-				13BE5AB52762917A00C5E617 /* SceneDelegate.swift */,
+				13BE5AFF27629CA000C5E617 /* Common */,
+				13BE5AE72762991200C5E617 /* Modules */,
+				13BE5AE62762990200C5E617 /* Main */,
 				13BE5AB72762917A00C5E617 /* ContentView.swift */,
 				13BE5AB92762917C00C5E617 /* Assets.xcassets */,
 				13BE5ABE2762917C00C5E617 /* LaunchScreen.storyboard */,
@@ -134,6 +139,63 @@
 				13BE5AD72762917D00C5E617 /* Info.plist */,
 			);
 			path = LoginTaskUITests;
+			sourceTree = "<group>";
+		};
+		13BE5AE62762990200C5E617 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				13BE5AB32762917A00C5E617 /* AppDelegate.swift */,
+				13BE5AB52762917A00C5E617 /* SceneDelegate.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		13BE5AE72762991200C5E617 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				13BE5AE82762991B00C5E617 /* Authentication */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		13BE5AE82762991B00C5E617 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				13BE5AEB2762994B00C5E617 /* ViewModels */,
+				13BE5AEA2762994400C5E617 /* Models */,
+				13BE5AE92762992700C5E617 /* Views */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
+		13BE5AE92762992700C5E617 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				13BE5AFA276299D700C5E617 /* LoginView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		13BE5AEA2762994400C5E617 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		13BE5AEB2762994B00C5E617 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		13BE5AFF27629CA000C5E617 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				13BE5B0027629ED000C5E617 /* CustomText.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -268,7 +330,9 @@
 			files = (
 				13BE5AB42762917A00C5E617 /* AppDelegate.swift in Sources */,
 				13BE5AB62762917A00C5E617 /* SceneDelegate.swift in Sources */,
+				13BE5AFB276299D700C5E617 /* LoginView.swift in Sources */,
 				13BE5AB82762917A00C5E617 /* ContentView.swift in Sources */,
+				13BE5B0127629ED000C5E617 /* CustomText.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
