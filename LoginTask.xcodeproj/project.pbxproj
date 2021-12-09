@@ -17,6 +17,10 @@
 		13BE5AD62762917D00C5E617 /* LoginTaskUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BE5AD52762917D00C5E617 /* LoginTaskUITests.swift */; };
 		13BE5AFB276299D700C5E617 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BE5AFA276299D700C5E617 /* LoginView.swift */; };
 		13BE5B0127629ED000C5E617 /* CustomText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BE5B0027629ED000C5E617 /* CustomText.swift */; };
+		13BE5B0927629F9800C5E617 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BE5B0827629F9800C5E617 /* CustomTextField.swift */; };
+		13BE5B0F2762A13000C5E617 /* NunitoSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13BE5B0E2762A13000C5E617 /* NunitoSans-Bold.ttf */; };
+		13BE5B142762B6F200C5E617 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BE5B132762B6F200C5E617 /* CustomButton.swift */; };
+		13BE5B1A2762BBBD00C5E617 /* ViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BE5B192762BBBD00C5E617 /* ViewHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +57,10 @@
 		13BE5AD72762917D00C5E617 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		13BE5AFA276299D700C5E617 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		13BE5B0027629ED000C5E617 /* CustomText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomText.swift; sourceTree = "<group>"; };
+		13BE5B0827629F9800C5E617 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		13BE5B0E2762A13000C5E617 /* NunitoSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NunitoSans-Bold.ttf"; sourceTree = "<group>"; };
+		13BE5B132762B6F200C5E617 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		13BE5B192762BBBD00C5E617 /* ViewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +111,8 @@
 		13BE5AB22762917A00C5E617 /* LoginTask */ = {
 			isa = PBXGroup;
 			children = (
+				13BE5B182762BBA800C5E617 /* Helpers */,
+				13BE5B0D2762A10C00C5E617 /* Fonts */,
 				13BE5AFF27629CA000C5E617 /* Common */,
 				13BE5AE72762991200C5E617 /* Modules */,
 				13BE5AE62762990200C5E617 /* Main */,
@@ -194,8 +204,26 @@
 			isa = PBXGroup;
 			children = (
 				13BE5B0027629ED000C5E617 /* CustomText.swift */,
+				13BE5B0827629F9800C5E617 /* CustomTextField.swift */,
+				13BE5B132762B6F200C5E617 /* CustomButton.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		13BE5B0D2762A10C00C5E617 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				13BE5B0E2762A13000C5E617 /* NunitoSans-Bold.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		13BE5B182762BBA800C5E617 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				13BE5B192762BBBD00C5E617 /* ViewHelper.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -304,6 +332,7 @@
 				13BE5AC02762917C00C5E617 /* LaunchScreen.storyboard in Resources */,
 				13BE5ABD2762917C00C5E617 /* Preview Assets.xcassets in Resources */,
 				13BE5ABA2762917C00C5E617 /* Assets.xcassets in Resources */,
+				13BE5B0F2762A13000C5E617 /* NunitoSans-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,8 +359,11 @@
 			files = (
 				13BE5AB42762917A00C5E617 /* AppDelegate.swift in Sources */,
 				13BE5AB62762917A00C5E617 /* SceneDelegate.swift in Sources */,
+				13BE5B0927629F9800C5E617 /* CustomTextField.swift in Sources */,
 				13BE5AFB276299D700C5E617 /* LoginView.swift in Sources */,
+				13BE5B142762B6F200C5E617 /* CustomButton.swift in Sources */,
 				13BE5AB82762917A00C5E617 /* ContentView.swift in Sources */,
+				13BE5B1A2762BBBD00C5E617 /* ViewHelper.swift in Sources */,
 				13BE5B0127629ED000C5E617 /* CustomText.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
