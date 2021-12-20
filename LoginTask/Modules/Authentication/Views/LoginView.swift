@@ -9,63 +9,68 @@ import SwiftUI
 
 struct LoginView: View {
     
-    @ObservedObject var viewModel: AuthenticationViewModel
-    @EnvironmentObject var errorHandling: ErrorHandling
+    @EnvironmentObject var viewModel: AuthenticationViewModel
 
     //MARK: - PROPERTIES
     @State var username: String = ""
     @State var password: String = ""
     @State private var isCredentialsValid: Bool = true
+    @State private var showHomeScreen: Bool = false
+
     
     var body: some View {
-        ZStack {
-            Image("Background")
-                .resizable()
-                .ignoresSafeArea(.all)
-            Spacer()
-            
-            VStack {
-                Text("Welcome")
-                LoginTextField(text: username, placeHolderText: "Username", iconName: "person")
-                                
-                LoginTextField(text: password, placeHolderText: "Password", iconName: "lock")
+        NavigationView {
+            ZStack {
+                Image("Background")
+                    .resizable()
+                    .ignoresSafeArea(.all)
+                Spacer()
                 
-                Text("Incorrect credentials")
-                    .foregroundColor(.red)
-                    .frame(maxWidth: .infinity, maxHeight: 20, alignment: .leading)
-                    .hidden(isCredentialsValid)
-                
-                //  Button SignIn
-                Button(action: {
-                    viewModel.signIn(type: .google, from: getRootViewController())
-                }){
-                    Text("Sign In")
-                        .modifier(CustomText(fontName: "NunitoSans-Bold", fontSize: 16, fontColor: .black))
+                VStack {
+                    Text("Welcome")
+                    LoginTextField(text: username, placeHolderText: "Username", iconName: "person")
+                                    
+                    LoginTextField(text: password, placeHolderText: "Password", iconName: "lock")
+                    
+                    Text("Incorrect credentials")
+                        .foregroundColor(.red)
+                        .frame(maxWidth: .infinity, maxHeight: 20, alignment: .leading)
+                        .hidden(isCredentialsValid)
+                    
+                    //  Button SignIn
+                    Button(action: {
+                    }){
+                        Text("Sign In")
+                            .modifier(CustomText(fontName: "NunitoSans-Bold", fontSize: 16, fontColor: .black))
+                    }
+                    .modifier(CustomButton())
+                    .background(Color.white)
+                    .padding(.vertical,10)
+                    
+                    //  Button Google SignIn
+                    Button(action: {
+                        viewModel.signIn(type: .google, from: getRootViewController())
+                    }){
+                        Text("Google Sign In")
+                            .modifier(CustomText(fontName: "NunitoSans-Bold", fontSize: 16, fontColor: .white))
+                    }
+                    .modifier(CustomButton())
+                    .background(Color.red)
+                    .padding(.vertical,30)
                 }
-                .modifier(CustomButton())
-                .background(Color.white)
-                .padding(.vertical,10)
-                
-                //  Button Google SignIn
-                Button(action: {
-                    viewModel.signIn(type: .google, from: getRootViewController())
-                }){
-                    Text("Google Sign In")
-                        .modifier(CustomText(fontName: "NunitoSans-Bold", fontSize: 16, fontColor: .white))
-                }
-                .modifier(CustomButton())
-                .background(Color.red)
-                .padding(.vertical,30)
+                .emittingError(viewModel.error, actionHandler: {
+                    print("Alert dismissed")
+                })
+                .foregroundColor(.white)
+                .padding(.horizontal,20)
             }
-            .foregroundColor(.white)
-            .padding(.horizontal,20)
         }
     }
 }
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView(viewModel: AuthenticationViewModel())
+        LoginView()
     }
 }
 
