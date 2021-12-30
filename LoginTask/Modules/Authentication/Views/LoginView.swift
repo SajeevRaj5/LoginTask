@@ -9,8 +9,11 @@ import SwiftUI
 
 struct LoginView: View {
     
-    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @EnvironmentObject var authentication: Authentication
 
+    @State var viewModel: AuthenticationViewModel
+    @State var isActive = false
+    
     //MARK: - PROPERTIES
     @State var username: String = ""
     @State var password: String = ""
@@ -29,7 +32,7 @@ struct LoginView: View {
                 VStack {
                     Text("Welcome")
                     LoginTextField(text: username, placeHolderText: "Username", iconName: "person")
-                                    
+                    
                     LoginTextField(text: password, placeHolderText: "Password", iconName: "lock")
                     
                     Text("Incorrect credentials")
@@ -49,7 +52,10 @@ struct LoginView: View {
                     
                     //  Button Google SignIn
                     Button(action: {
-                        viewModel.signIn(type: .google, from: getRootViewController())
+                        let rootView = getRootViewController()
+                        viewModel.signIn(type: .google, from: rootView, completion: { viewModel in
+                            self.authentication.state = .signedIn(userViewModel: viewModel)
+                        })
                     }){
                         Text("Google Sign In")
                             .modifier(CustomText(fontName: "NunitoSans-Bold", fontSize: 16, fontColor: .white))
@@ -70,7 +76,7 @@ struct LoginView: View {
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView()
+        LoginView(viewModel: AuthenticationViewModel())
     }
 }
 

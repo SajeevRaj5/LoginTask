@@ -51,7 +51,7 @@ private extension AlertErrorHandler {
         return Alert(
             title: Text("An error occured"),
             message: Text(error.localizedDescription),
-            dismissButton: .default(Text("Dismiss"))
+            dismissButton: .default(Text("Ok"))
         )
     }
 }

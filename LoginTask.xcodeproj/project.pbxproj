@@ -12,6 +12,8 @@
 		13923B4127710BE8000E4AFA /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13923B4027710BE8000E4AFA /* HomeView.swift */; };
 		13923B4627711223000E4AFA /* LoginTaskApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13923B4527711223000E4AFA /* LoginTaskApp.swift */; };
 		13923B4D277117CD000E4AFA /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13923B4C277117CD000E4AFA /* UserViewModel.swift */; };
+		13923B5627713966000E4AFA /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13923B5527713966000E4AFA /* LoginService.swift */; };
+		13923B5B27713A00000E4AFA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13923B5A27713A00000E4AFA /* User.swift */; };
 		13BC32C1276922530045F2F4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 13BC32C0276922530045F2F4 /* GoogleService-Info.plist */; };
 		13BE5AB82762917A00C5E617 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BE5AB72762917A00C5E617 /* ContentView.swift */; };
 		13BE5ABA2762917C00C5E617 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13BE5AB92762917C00C5E617 /* Assets.xcassets */; };
@@ -54,6 +56,8 @@
 		13923B4027710BE8000E4AFA /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		13923B4527711223000E4AFA /* LoginTaskApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTaskApp.swift; sourceTree = "<group>"; };
 		13923B4C277117CD000E4AFA /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
+		13923B5527713966000E4AFA /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
+		13923B5A27713A00000E4AFA /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		13BC32C0276922530045F2F4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		13BE5AB02762917A00C5E617 /* LoginTask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoginTask.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13BE5AB72762917A00C5E617 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -151,6 +155,14 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		13923B542771393A000E4AFA /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				13923B5527713966000E4AFA /* LoginService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		13BE5AA72762917A00C5E617 = {
 			isa = PBXGroup;
 			children = (
@@ -237,6 +249,7 @@
 		13BE5AE82762991B00C5E617 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
+				13923B542771393A000E4AFA /* Service */,
 				13296E8127692EFB00344829 /* Google */,
 				13BE5AEB2762994B00C5E617 /* ViewModels */,
 				13BE5AEA2762994400C5E617 /* Models */,
@@ -256,6 +269,7 @@
 		13BE5AEA2762994400C5E617 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				13923B5A27713A00000E4AFA /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -558,6 +572,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13923B5B27713A00000E4AFA /* User.swift in Sources */,
 				13296E912769498800344829 /* AlertErrorHandler.swift in Sources */,
 				13923B4627711223000E4AFA /* LoginTaskApp.swift in Sources */,
 				13BE5B0927629F9800C5E617 /* CustomTextField.swift in Sources */,
@@ -565,6 +580,7 @@
 				13923B4127710BE8000E4AFA /* HomeView.swift in Sources */,
 				13BE5B142762B6F200C5E617 /* CustomButton.swift in Sources */,
 				13296E88276930D100344829 /* AuthenticationViewModel.swift in Sources */,
+				13923B5627713966000E4AFA /* LoginService.swift in Sources */,
 				13923B4D277117CD000E4AFA /* UserViewModel.swift in Sources */,
 				13BE5AB82762917A00C5E617 /* ContentView.swift in Sources */,
 				13BE5B1A2762BBBD00C5E617 /* ViewHelper.swift in Sources */,

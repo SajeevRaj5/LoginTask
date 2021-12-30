@@ -8,12 +8,9 @@
 import Foundation
 
 class UserViewModel: NSObject, ObservableObject {
-   
-    var name: String
-    var email: String
+    let user: User
     
-    init(name: String, email: String) {
-        self.name = name
-        self.email = email
+    init(user: User) {
+        self.user = user
     }
 }

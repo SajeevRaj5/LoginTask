@@ -6,6 +6,16 @@
 //
 
 import GoogleSignIn
+import SwiftUI
+
+enum SignInState {
+    case signedIn(userViewModel: UserViewModel)
+    case signedOut
+}
+
+class Authentication: ObservableObject {
+    @Published var state: SignInState = .signedOut
+}
 
 class AuthenticationViewModel: NSObject, ObservableObject {
     
@@ -14,37 +24,35 @@ class AuthenticationViewModel: NSObject, ObservableObject {
         case apple
         case facebook
     }
-    
-    enum SignInState {
-        case signedIn
-        case signedOut
-    }
-    
-    @Published var state: SignInState = .signedOut
+
     @Published private(set) var error: Error?
+    
+    private let service: LoginService
+    
+    init(service: LoginService = LoginService()) {
+        self.service = service
+    }
 
     func signIn(type: SignInMode,
-                from viewController: UIViewController) {
-        
+                from viewController: UIViewController,
+                completion: @escaping (UserViewModel) -> ()) {
         switch type {
         case .google:
             // handle google sign in case
-        let configuration = GIDConfiguration(clientID: "686900365153-42p9bnd5joqk5rt41fqjthe1u89mqlp1.apps.googleusercontent.com")
-            GIDSignIn.sharedInstance.signIn(with: configuration, presenting: viewController) { [weak self] (user, error) in
-                if let googleSignInError = error {
-                    self?.error = googleSignInError
-                    return
+            service.signInWithGoogle(viewController: viewController) { [weak self] (result) in
+                switch result {
+                case .success(let user):
+                    DispatchQueue.main.async {
+                        // map to view model
+                        let viewModel = UserViewModel(user: User(name: user.name,email: user.email ))
+                        completion(viewModel)
+                    }
+                case .failure(let error):
+                    self?.error = error
                 }
-                guard let googleUser = user else {
-                    return
-                }
-                // map to View model
-                let viewModel = UserViewModel(name: googleUser.profile?.name ?? "", email: googleUser.profile?.email ?? "")
-                self?.state = .signedIn
             }
         default:
             break
-            
         }
     }
     
