@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1308602F277E106900DBE900 /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1308602E277E106900DBE900 /* Authentication.swift */; };
+		1308603F277F3BAF00DBE900 /* GoogleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1308603E277F3BAF00DBE900 /* GoogleService.swift */; };
 		13296E88276930D100344829 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13296E87276930D100344829 /* AuthenticationViewModel.swift */; };
 		13296E912769498800344829 /* AlertErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13296E902769498800344829 /* AlertErrorHandler.swift */; };
 		13923B4127710BE8000E4AFA /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13923B4027710BE8000E4AFA /* HomeView.swift */; };
@@ -51,6 +53,8 @@
 
 /* Begin PBXFileReference section */
 		0F5EA1199C1793572ECCC8E0 /* Pods-LoginTask-LoginTaskUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoginTask-LoginTaskUITests.release.xcconfig"; path = "Target Support Files/Pods-LoginTask-LoginTaskUITests/Pods-LoginTask-LoginTaskUITests.release.xcconfig"; sourceTree = "<group>"; };
+		1308602E277E106900DBE900 /* Authentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authentication.swift; sourceTree = "<group>"; };
+		1308603E277F3BAF00DBE900 /* GoogleService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleService.swift; sourceTree = "<group>"; };
 		13296E87276930D100344829 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		13296E902769498800344829 /* AlertErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertErrorHandler.swift; sourceTree = "<group>"; };
 		13923B4027710BE8000E4AFA /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -115,9 +119,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1308602D277E105300DBE900 /* StateManager */ = {
+			isa = PBXGroup;
+			children = (
+				1308602E277E106900DBE900 /* Authentication.swift */,
+			);
+			path = StateManager;
+			sourceTree = "<group>";
+		};
 		13296E8127692EFB00344829 /* Google */ = {
 			isa = PBXGroup;
 			children = (
+				1308603E277F3BAF00DBE900 /* GoogleService.swift */,
 			);
 			path = Google;
 			sourceTree = "<group>";
@@ -249,6 +262,7 @@
 		13BE5AE82762991B00C5E617 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
+				1308602D277E105300DBE900 /* StateManager */,
 				13923B542771393A000E4AFA /* Service */,
 				13296E8127692EFB00344829 /* Google */,
 				13BE5AEB2762994B00C5E617 /* ViewModels */,
@@ -579,9 +593,11 @@
 				13BE5AFB276299D700C5E617 /* LoginView.swift in Sources */,
 				13923B4127710BE8000E4AFA /* HomeView.swift in Sources */,
 				13BE5B142762B6F200C5E617 /* CustomButton.swift in Sources */,
+				1308602F277E106900DBE900 /* Authentication.swift in Sources */,
 				13296E88276930D100344829 /* AuthenticationViewModel.swift in Sources */,
 				13923B5627713966000E4AFA /* LoginService.swift in Sources */,
 				13923B4D277117CD000E4AFA /* UserViewModel.swift in Sources */,
+				1308603F277F3BAF00DBE900 /* GoogleService.swift in Sources */,
 				13BE5AB82762917A00C5E617 /* ContentView.swift in Sources */,
 				13BE5B1A2762BBBD00C5E617 /* ViewHelper.swift in Sources */,
 				13BE5B0127629ED000C5E617 /* CustomText.swift in Sources */,

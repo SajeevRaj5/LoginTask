@@ -54,6 +54,7 @@ struct LoginView: View {
                     Button(action: {
                         let rootView = getRootViewController()
                         viewModel.signIn(type: .google, from: rootView, completion: { viewModel in
+                            self.authentication.loggedInMode = .google
                             self.authentication.state = .signedIn(userViewModel: viewModel)
                         })
                     }){

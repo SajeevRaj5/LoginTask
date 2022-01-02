@@ -8,15 +8,6 @@
 import GoogleSignIn
 import SwiftUI
 
-enum SignInState {
-    case signedIn(userViewModel: UserViewModel)
-    case signedOut
-}
-
-class Authentication: ObservableObject {
-    @Published var state: SignInState = .signedOut
-}
-
 class AuthenticationViewModel: NSObject, ObservableObject {
     
     enum SignInMode {

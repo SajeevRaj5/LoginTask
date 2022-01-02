@@ -11,12 +11,25 @@ struct ContentView: View {
     @StateObject var authentication = Authentication()
     
     var body: some View {
-        switch authentication.state {
-        case .signedIn(let viewModel):
-            HomeView(viewModel: viewModel)
-                .environmentObject(authentication)
-        case .signedOut:
-            LoginView(viewModel: AuthenticationViewModel())
+//        switch authentication.state {
+//        case .signedIn(let viewModel):
+//            HomeView(viewModel: viewModel)
+//                .environmentObject(authentication)
+//        case .signedOut:
+//            LoginView(viewModel: AuthenticationViewModel())
+//                .environmentObject(authentication)
+//        }
+        checkAuthentication()
+    }
+    
+    private func checkAuthentication() {
+        authentication.checkAuthentication { (viewModel) in
+            guard let userViewModel = viewModel else {
+               return LoginView(viewModel: AuthenticationViewModel())
+                    .environmentObject(authentication)
+                return
+            }
+           return HomeView(viewModel: userViewModel)
                 .environmentObject(authentication)
         }
     }
