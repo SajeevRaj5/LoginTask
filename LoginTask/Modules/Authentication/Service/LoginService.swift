@@ -8,7 +8,11 @@
 import SwiftUI
 import GoogleSignIn
 
-class LoginService {
+protocol LoginServiceProtocol {
+    func signInWithGoogle(viewController: UIViewController, completion: @escaping (Result<GIDProfileData, Error>) -> Void)
+}
+
+class LoginService: LoginServiceProtocol {
     
     func signInWithGoogle(viewController: UIViewController, completion: @escaping (Result<GIDProfileData, Error>) -> Void) {
         let configuration = GIDConfiguration(clientID: "686900365153-42p9bnd5joqk5rt41fqjthe1u89mqlp1.apps.googleusercontent.com")

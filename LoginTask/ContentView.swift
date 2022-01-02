@@ -11,12 +11,12 @@ struct ContentView: View {
     @StateObject var authentication = Authentication()
     
     var body: some View {
-        if let loggedInMode = authentication.loggedInMode {
+        if (authentication.loggedInMode != nil) {
             AutoLoginView(viewModel: AutoLoginViewModel(authentication: authentication))
                 .environmentObject(authentication)
         }
         else {
-            LoginView(viewModel: AuthenticationViewModel())
+            LoginView(viewModel: AuthenticationViewModel(service: LoginService()))
                 .environmentObject(authentication)
         }
 

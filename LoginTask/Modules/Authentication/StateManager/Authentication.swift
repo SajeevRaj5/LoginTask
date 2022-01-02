@@ -15,7 +15,16 @@ enum SignInState {
 }
 
 class Authentication: ObservableObject {
-    @Published var state: SignInState = .signedOut
+    @Published var state: SignInState = .signedOut {
+        didSet {
+            switch state {
+            case .signedOut:
+                UserDefaults.standard.set(nil, forKey: "LoggedInMode")
+            default:
+                break
+            }
+        }
+    }
     
     var error: NSError?
     

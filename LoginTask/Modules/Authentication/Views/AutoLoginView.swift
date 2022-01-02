@@ -22,7 +22,7 @@ struct AutoLoginView: View {
         case .signedIn(let userViewModel):
             HomeView(viewModel: userViewModel)
         case .signedOut:
-            LoginView(viewModel: AuthenticationViewModel())
+            LoginView(viewModel: AuthenticationViewModel(service: LoginService()))
         }
 
     }

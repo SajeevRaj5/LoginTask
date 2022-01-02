@@ -34,15 +34,19 @@ class AutoLoginViewModel {
             context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
 
                 // auto login user with mode. We don't want to show user error in this case. If auto login fails, direct user to Login screen
-                self.autoLogin(mode: loggedInMode) { (result) in
-                    switch result {
-                    case .success(let viewModel):
-                        completion(viewModel)
-                    case .failure:
-                        completion(nil)
+                if success {
+                    self.autoLogin(mode: loggedInMode) { (result) in
+                        switch result {
+                        case .success(let viewModel):
+                            completion(viewModel)
+                        case .failure:
+                            completion(nil)
+                        }
                     }
                 }
-
+                else {
+                    completion(nil)
+                }
             }
         } else {
             completion(nil)

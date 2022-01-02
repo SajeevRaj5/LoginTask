@@ -18,9 +18,9 @@ class AuthenticationViewModel: NSObject, ObservableObject {
 
     @Published private(set) var error: Error?
     
-    private let service: LoginService
+    private let service: LoginServiceProtocol
     
-    init(service: LoginService = LoginService()) {
+    init(service: LoginServiceProtocol) {
         self.service = service
     }
 

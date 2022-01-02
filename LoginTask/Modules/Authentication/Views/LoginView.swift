@@ -23,15 +23,15 @@ struct LoginView: View {
         
         switch signedInState{
         case .signedOut:
-            arrangeView()
+            LoginInScreenView()
         case .signedIn(let userViewModel):
             HomeView(viewModel: userViewModel)
         default:
-            arrangeView()
+            LoginInScreenView()
         }
     }
     
-    private func arrangeView() -> some View {
+    private func LoginInScreenView() -> some View {
         return NavigationView {
             ZStack {
                 Image("Background")
@@ -68,7 +68,7 @@ struct LoginView: View {
                             signedInState = .signedIn(userViewModel: viewModel)
                         })
                     }){
-                        Text("Google Sign In")
+                        Text("Sign In with Google")
                             .modifier(CustomText(fontName: "NunitoSans-Bold", fontSize: 16, fontColor: .white))
                     }
                     .modifier(CustomButton())
@@ -87,7 +87,7 @@ struct LoginView: View {
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView(viewModel: AuthenticationViewModel())
+        LoginView(viewModel: AuthenticationViewModel(service: LoginService()))
     }
 }
 
