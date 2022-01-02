@@ -12,8 +12,10 @@ import GoogleSignIn
 @testable import LoginTask
 
 class MockLoginService: LoginServiceProtocol {
+    var loginResult: Result<GIDProfileData, Error> = .success((GIDProfileData()))
+    
     func signInWithGoogle(viewController: UIViewController, completion: @escaping (Result<GIDProfileData, Error>) -> Void) {
-        
+        completion(loginResult)
     }
     
 }
