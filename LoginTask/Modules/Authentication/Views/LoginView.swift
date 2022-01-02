@@ -12,17 +12,27 @@ struct LoginView: View {
     @EnvironmentObject var authentication: Authentication
 
     @State var viewModel: AuthenticationViewModel
-    @State var isActive = false
     
     //MARK: - PROPERTIES
     @State var username: String = ""
     @State var password: String = ""
     @State private var isCredentialsValid: Bool = true
-    @State private var showHomeScreen: Bool = false
-
+    @State var signedInState: SignInState = .signedOut
     
     var body: some View {
-        NavigationView {
+        
+        switch signedInState{
+        case .signedOut:
+            arrangeView()
+        case .signedIn(let userViewModel):
+            HomeView(viewModel: userViewModel)
+        default:
+            arrangeView()
+        }
+    }
+    
+    private func arrangeView() -> some View {
+        return NavigationView {
             ZStack {
                 Image("Background")
                     .resizable()
@@ -55,7 +65,7 @@ struct LoginView: View {
                         let rootView = getRootViewController()
                         viewModel.signIn(type: .google, from: rootView, completion: { viewModel in
                             self.authentication.loggedInMode = .google
-                            self.authentication.state = .signedIn(userViewModel: viewModel)
+                            signedInState = .signedIn(userViewModel: viewModel)
                         })
                     }){
                         Text("Google Sign In")
