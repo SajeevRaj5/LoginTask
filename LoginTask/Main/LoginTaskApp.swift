@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct LoginTaskApp: App {
     
-    @StateObject var viewModel = AuthenticationViewModel(service: LoginService())
+    @StateObject var viewModel = AuthenticationViewModel()
     
     var body: some Scene {
       WindowGroup {

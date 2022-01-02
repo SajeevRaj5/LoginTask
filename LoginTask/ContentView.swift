@@ -16,7 +16,7 @@ struct ContentView: View {
                 .environmentObject(authentication)
         }
         else {
-            LoginView(viewModel: AuthenticationViewModel(service: LoginService()))
+            LoginView(viewModel: AuthenticationViewModel())
                 .environmentObject(authentication)
         }
 
