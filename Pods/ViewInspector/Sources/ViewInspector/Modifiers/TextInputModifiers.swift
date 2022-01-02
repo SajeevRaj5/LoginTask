@@ -2,17 +2,19 @@ import SwiftUI
 
 // MARK: - Adjusting Text in a View
 
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(iOS 13.0, macOS 10.15, tvOS 13.0, *)
 public extension InspectableView {
     
-    #if (os(iOS) || os(tvOS)) && !targetEnvironment(macCatalyst)
+    #if !os(macOS)
     func textContentType() throws -> UITextContentType? {
         let reference = EmptyView().textContentType(.emailAddress)
         let keyPath = try Inspector.environmentKeyPath(Optional<String>.self, reference)
         let value = try environment(keyPath, call: "textContentType")
         return value.flatMap { UITextContentType(rawValue: $0) }
     }
-    
+    #endif
+
+    #if os(iOS) || os(tvOS)
     func keyboardType() throws -> UIKeyboardType {
         let reference = EmptyView().keyboardType(.default)
         let keyPath = try Inspector.environmentKeyPath(Int.self, reference)
@@ -22,21 +24,6 @@ public extension InspectableView {
     
     func autocapitalization() throws -> UITextAutocapitalizationType {
         let reference = EmptyView().autocapitalization(.none)
-        if #available(iOS 15.0, tvOS 15.0, watchOS 8.0, *) {
-            typealias Closure = (inout TextInputAutocapitalization) -> Void
-            if let keyPath = try? Inspector
-                .environmentKeyPath(TextInputAutocapitalization.self, reference) {
-                let closure = try environment(keyPath, call: "autocapitalization", valueType: Closure.self)
-                var value = TextInputAutocapitalization.never
-                closure(&value)
-                let behavior = try Inspector.attribute(label: "behavior", value: value)
-                let stringValue = String(describing: behavior)
-                guard let style = TextInputAutocapitalization.Behavior(rawValue: stringValue) else {
-                    throw InspectionError.notSupported("Unknown TextInputAutocapitalization.Behavior: \(stringValue)")
-                }
-                return style.autocapitalizationType
-            }
-        }
         let keyPath = try Inspector.environmentKeyPath(Int.self, reference)
         let value = try environment(keyPath, call: "autocapitalization")
         return UITextAutocapitalizationType(rawValue: value)!
@@ -95,50 +82,21 @@ public extension InspectableView {
         return try environment(keyPath, call: "truncationMode")
     }
     
-    func allowsTightening() -> Bool {
+    func allowsTightening() throws -> Bool {
         let reference = EmptyView().allowsTightening(true)
-        if let keyPath = try? Inspector.environmentKeyPath(Bool.self, reference),
-           let value = try? environment(keyPath, call: "allowsTightening") {
-            return value
-        }
-        return false
+        let keyPath = try Inspector.environmentKeyPath(Bool.self, reference)
+        return try environment(keyPath, call: "allowsTightening")
     }
     
-    #if !os(watchOS)
-    func disableAutocorrection() -> Bool {
+    func disableAutocorrection() throws -> Bool? {
         let reference = EmptyView().disableAutocorrection(false)
-        if let keyPath = try? Inspector.environmentKeyPath(Optional<Bool>.self, reference),
-           let value = try? environment(keyPath, call: "disableAutocorrection") {
-            return value
-        }
-        return false
+        let keyPath = try Inspector.environmentKeyPath(Optional<Bool>.self, reference)
+        return try environment(keyPath, call: "disableAutocorrection")
     }
-    #endif
     
-    func flipsForRightToLeftLayoutDirection() -> Bool {
-        return modifiersMatching({ $0.modifierType == "_FlipForRTLEffect" },
-                                 transitive: true)
-            .compactMap {
-                try? Inspector.attribute(path: "modifier|isEnabled", value: $0, type: Bool.self)
-            }
-            .contains(true)
+    func flipsForRightToLeftLayoutDirection() throws -> Bool? {
+        return try modifierAttribute(
+            modifierName: "_FlipForRTLEffect", path: "modifier|isEnabled",
+            type: Optional<Bool>.self, call: "flipsForRightToLeftLayoutDirection")
     }
 }
-
-#if (os(iOS) || os(tvOS)) && !targetEnvironment(macCatalyst)
-@available(iOS 15.0, tvOS 15.0, watchOS 8.0, *)
-extension TextInputAutocapitalization {
-    enum Behavior: String {
-        case never, words, sentences, characters
-        
-        var autocapitalizationType: UITextAutocapitalizationType {
-            switch self {
-            case .never: return .none
-            case .words: return .words
-            case .sentences: return .sentences
-            case .characters: return .allCharacters
-            }
-        }
-    }
-}
-#endif

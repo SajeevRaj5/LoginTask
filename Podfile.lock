@@ -12,7 +12,7 @@ PODS:
     - AppAuth/Core (~> 1.4)
     - GTMSessionFetcher/Core (~> 1.5)
   - GTMSessionFetcher/Core (1.7.0)
-  - ViewInspector (0.9.1)
+  - ViewInspector (0.7.1)
 
 DEPENDENCIES:
   - GoogleSignIn
@@ -31,8 +31,8 @@ SPEC CHECKSUMS:
   GoogleSignIn: c90b5bec45e780f54c6a8e1e3c182a86e3dda69d
   GTMAppAuth: ad5c2b70b9a8689e1a04033c9369c4915bfcbe89
   GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91
-  ViewInspector: 68842776f07fbf186713689d4846e54f32ccbffb
+  ViewInspector: 33c53b81baf4a32148998c99752124fea4637499
 
-PODFILE CHECKSUM: 415e43a0eca732e01dd4faf1f78fa388300421eb
+PODFILE CHECKSUM: 340e082788acaf9ddf6b5477d8cc0bb9a5c2b5dd
 
 COCOAPODS: 1.10.1

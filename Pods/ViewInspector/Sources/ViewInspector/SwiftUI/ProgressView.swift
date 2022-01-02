@@ -39,14 +39,12 @@ extension ViewType.ProgressView: SupplementaryChildren {
                 let child = try Inspector.attribute(
                     path: "base|custom|label|some", value: parent.content.view)
                 let content = try Inspector.unwrap(content: Content(child, medium: medium))
-                return try InspectableView<ViewType.ClassifiedView>(
-                    content, parent: parent, call: "labelView()")
+                return try .init(content, parent: parent, call: "labelView()")
             } else {
                 let child = try Inspector.attribute(
                     path: "base|custom|currentValueLabel|some", value: parent.content.view)
                 let content = try Inspector.unwrap(content: Content(child, medium: medium))
-                return try InspectableView<ViewType.ClassifiedView>(
-                    content, parent: parent, call: "currentValueLabelView()")
+                return try .init(content, parent: parent, call: "currentValueLabelView()")
             }
         }
     }
@@ -63,24 +61,17 @@ public extension InspectableView where View == ViewType.ProgressView {
     }
     
     func progress() throws -> Progress {
-        if let value = try? Inspector
-            .attribute(path: "base|observing|_progress|wrappedValue|base",
-                       value: content.view, type: Progress.self) {
-            return value
-        }
         return try Inspector
-            .attribute(path: "base|observing|progress",
+            .attribute(path: "base|observing|_progress|wrappedValue|base",
                        value: content.view, type: Progress.self)
     }
     
     func labelView() throws -> InspectableView<ViewType.ClassifiedView> {
         return try View.supplementaryChildren(self).element(at: 0)
-            .asInspectableView(ofType: ViewType.ClassifiedView.self)
     }
     
     func currentValueLabelView() throws -> InspectableView<ViewType.ClassifiedView> {
         return try View.supplementaryChildren(self).element(at: 1)
-            .asInspectableView(ofType: ViewType.ClassifiedView.self)
     }
 }
 
@@ -99,7 +90,7 @@ public extension InspectableView {
 
 // MARK: - ProgressViewStyle inspection
 
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, *)
 public extension ProgressViewStyle {
     func inspect(fractionCompleted: Double? = nil) throws -> InspectableView<ViewType.ClassifiedView> {
         let config = ProgressViewStyleConfiguration(fractionCompleted: fractionCompleted)
@@ -110,7 +101,7 @@ public extension ProgressViewStyle {
 
 // MARK: - Style Configuration initializer
 
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, *)
 internal extension ProgressViewStyleConfiguration {
     private struct Allocator {
         let fractionCompleted: Double?

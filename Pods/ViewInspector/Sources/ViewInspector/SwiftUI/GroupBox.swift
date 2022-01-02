@@ -54,7 +54,6 @@ public extension InspectableView where View == ViewType.GroupBox {
     
     func labelView() throws -> InspectableView<ViewType.ClassifiedView> {
         return try View.supplementaryChildren(self).element(at: 0)
-            .asInspectableView(ofType: ViewType.ClassifiedView.self)
     }
 }
 
@@ -74,10 +73,8 @@ public extension InspectableView {
 
 // MARK: - GroupBoxStyle inspection
 
-#if os(iOS) || os(macOS)
 @available(iOS 14.0, macOS 11.0, *)
 @available(tvOS, unavailable)
-@available(watchOS, unavailable)
 public extension GroupBoxStyle {
     func inspect() throws -> InspectableView<ViewType.ClassifiedView> {
         let config = GroupBoxStyleConfiguration()
@@ -90,11 +87,9 @@ public extension GroupBoxStyle {
 
 @available(iOS 14.0, macOS 11.0, *)
 @available(tvOS, unavailable)
-@available(watchOS, unavailable)
 private extension GroupBoxStyleConfiguration {
     private struct Allocator { }
     init() {
         self = unsafeBitCast(Allocator(), to: Self.self)
     }
 }
-#endif

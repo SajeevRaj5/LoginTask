@@ -40,7 +40,6 @@ public extension InspectableView where View == ViewType.SecureField {
     
     func labelView() throws -> InspectableView<ViewType.ClassifiedView> {
         return try View.supplementaryChildren(self).element(at: 0)
-            .asInspectableView(ofType: ViewType.ClassifiedView.self)
     }
     
     func input() throws -> String {
@@ -48,29 +47,18 @@ public extension InspectableView where View == ViewType.SecureField {
     }
     
     func setInput(_ value: String) throws {
-        try guardIsResponsive()
         try inputBinding().wrappedValue = value
     }
     
     private func inputBinding() throws -> Binding<String> {
-        if let binding = try? Inspector.attribute(
-            label: "text", value: content.view, type: Binding<String>.self) {
-            return binding
-        }
         return try Inspector.attribute(
-            label: "_text", value: content.view, type: Binding<String>.self)
+            label: "text", value: content.view, type: Binding<String>.self)
     }
     
     func callOnCommit() throws {
         typealias Callback = () -> Void
-        let callback: Callback = try {
-            if let value = try? Inspector
-                .attribute(label: "onCommit", value: content.view, type: Callback.self) {
-                return value
-            }
-            return try Inspector
-                .attribute(path: "deprecatedActions|some|commit", value: content.view, type: Callback.self)
-        }()
+        let callback = try Inspector
+            .attribute(label: "onCommit", value: content.view, type: Callback.self)
         callback()
     }
 }

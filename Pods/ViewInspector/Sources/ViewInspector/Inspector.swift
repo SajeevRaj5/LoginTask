@@ -1,10 +1,10 @@
 import SwiftUI
 
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, *)
-public struct Inspector { }
+internal struct Inspector { }
 
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, *)
-internal extension Inspector {
+extension Inspector {
     
     static func attribute(label: String, value: Any) throws -> Any {
         if label == "super", let superclass = Mirror(reflecting: value).superclassMirror {
@@ -41,68 +41,25 @@ internal extension Inspector {
         return casted
     }
     
-    enum GenericParameters {
-        case keep
-        case remove
-        case customViewPlaceholder
-    }
-    
     static func typeName(value: Any,
                          namespaced: Bool = false,
-                         generics: GenericParameters = .keep) -> String {
-        return typeName(type: type(of: value), namespaced: namespaced,
-                        generics: generics)
+                         prefixOnly: Bool = false) -> String {
+        return typeName(type: type(of: value), namespaced: namespaced, prefixOnly: prefixOnly)
     }
     
     static func typeName(type: Any.Type,
                          namespaced: Bool = false,
-                         generics: GenericParameters = .keep) -> String {
-        let typeName = namespaced ? String(reflecting: type).sanitizingNamespace() : String(describing: type)
-        switch generics {
-        case .keep:
-            return typeName
-        case .remove:
-            return typeName.replacingGenericParameters("")
-        case .customViewPlaceholder:
-            let parameters = ViewType.customViewGenericsPlaceholder
-            return typeName.replacingGenericParameters(parameters)
-        }
-    }
-}
-
-private extension String {
-    func sanitizingNamespace() -> String {
-        var str = self
-        if let range = str.range(of: ".(unknown context at ") {
-            let end = str.index(range.upperBound, offsetBy: .init(11))
-            str.replaceSubrange(range.lowerBound..<end, with: "")
-        }
-        return str
-    }
-    
-    func replacingGenericParameters(_ replacement: String) -> String {
-        guard let start = self.firstIndex(of: "<")
-        else { return self }
-        var balance = 1
-        var current = self.index(after: start)
-        while balance > 0 && current < endIndex {
-            let char = self[current]
-            if char == "<" { balance += 1 }
-            if char == ">" { balance -= 1 }
-            current = self.index(after: current)
-        }
-        if balance == 0 {
-            return String(self[..<start]) + replacement +
-                String(self[current...]).replacingGenericParameters(replacement)
-        }
-        return self
+                         prefixOnly: Bool = false) -> String {
+        let typeName = namespaced ? String(reflecting: type) : String(describing: type)
+        guard prefixOnly else { return typeName }
+        return typeName.components(separatedBy: "<").first!
     }
 }
 
 // MARK: - Attributes lookup
 
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, *)
-public extension Inspector {
+extension Inspector {
     
     /**
         Use this function to lookup the struct content:
@@ -110,8 +67,8 @@ public extension Inspector {
         (lldb) po Inspector.print(view) as AnyObject
         ```
      */
-    static func print(_ value: Any) -> String {
-        let tree = attributesTree(value: value, medium: .empty, visited: [])
+    public static func print(_ value: Any) -> String {
+        let tree = attributesTree(value: value, medium: .empty)
         return typeName(value: value) + print(tree, level: 1)
     }
     
@@ -139,35 +96,22 @@ public extension Inspector {
         return needsNewLine ? "\n" : ""
     }
     
-    private static func attributesTree(value: Any, medium: Content.Medium, visited: [AnyObject]) -> Any {
-        var visited = visited
-        if type(of: value) is AnyClass {
-            let ref = value as AnyObject
-            guard !visited.contains(where: { $0 === ref })
-            else { return " = { cyclic reference }" }
-            visited.append(ref)
-        }
+    private static func attributesTree(value: Any, medium: Content.Medium) -> Any {
         if let array = value as? [Any] {
-            return array.map { attributesTree(value: $0, medium: medium, visited: visited) }
+            return array.map { attributesTree(value: $0, medium: medium) }
         }
         let medium = (try? unwrap(content: Content(value, medium: medium)).medium) ?? medium
-        var mirror = Mirror(reflecting: value)
-        var children = Array(mirror.children)
-        while let superclass = mirror.superclassMirror {
-            mirror = superclass
-            children.append(contentsOf: superclass.children)
-        }
+        let mirror = Mirror(reflecting: value)
         var dict: [String: Any] = [:]
-        children.enumerated().forEach { child in
+        mirror.children.enumerated().forEach { child in
             let childName = child.element.label ?? "[\(child.offset)]"
             let childType = typeName(value: child.element.value)
-            dict[childName + ": " + childType] = attributesTree(
-                value: child.element.value, medium: medium, visited: visited)
+            dict[childName + ": " + childType] = attributesTree(value: child.element.value, medium: medium)
         }
         if let inspectable = value as? Inspectable,
            let content = try? inspectable.extractContent(environmentObjects: medium.environmentObjects) {
             let childType = typeName(value: content)
-            dict["body: " + childType] = attributesTree(value: content, medium: medium, visited: visited)
+            dict["body: " + childType] = attributesTree(value: content, medium: medium)
         }
         if dict.count == 0 {
             return " = " + String(describing: value)
@@ -201,7 +145,7 @@ fileprivate extension Array {
 // MARK: - View Inspection
 
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, *)
-internal extension Inspector {
+extension Inspector {
     
     static func viewsInContainer(view: Any, medium: Content.Medium) throws -> LazyGroup<Content> {
         let unwrappedContainer = try Inspector.unwrap(content: Content(view, medium: medium.resettingViewModifiers()))
@@ -212,16 +156,15 @@ internal extension Inspector {
     }
     
     static func isTupleView(_ view: Any) -> Bool {
-        return Inspector.typeName(value: view, generics: .remove) == ViewType.TupleView.typePrefix
+        return Inspector.typeName(value: view, prefixOnly: true) == ViewType.TupleView.typePrefix
     }
     
     static func unwrap(view: Any, medium: Content.Medium) throws -> Content {
         return try unwrap(content: Content(view, medium: medium))
     }
     
-    // swiftlint:disable cyclomatic_complexity
     static func unwrap(content: Content) throws -> Content {
-        switch Inspector.typeName(value: content.view, generics: .remove) {
+        switch Inspector.typeName(value: content.view, prefixOnly: true) {
         case "Tree":
             return try ViewType.TreeView.child(content)
         case "IDView":
@@ -231,47 +174,39 @@ internal extension Inspector {
         case "EquatableView":
             return try ViewType.EquatableView.child(content)
         case "ModifiedContent":
-            return try ViewType.ViewModifier<ViewType.Stub>.child(content)
+            return try ViewType.ModifiedContent.child(content)
         case "SubscriptionView":
             return try ViewType.SubscriptionView.child(content)
-        case "_UnaryViewAdaptor":
-            return try ViewType.UnaryViewAdaptor.child(content)
         case "_ConditionalContent":
             return try ViewType.ConditionalContent.child(content)
         case "EnvironmentReaderView":
             return try ViewType.EnvironmentReaderView.child(content)
         case "_DelayedPreferenceView":
             return try ViewType.DelayedPreferenceView.child(content)
-        case "_PreferenceReadingView":
-            return try ViewType.PreferenceReadingView.child(content)
         default:
             return content
         }
     }
-    // swiftlint:enable cyclomatic_complexity
     
     static func guardType(value: Any, namespacedPrefixes: [String], inspectionCall: String) throws {
-        
-        var typePrefix = typeName(type: type(of: value), namespaced: true, generics: .remove)
-        if typePrefix == ViewType.popupContainerTypePrefix {
-            typePrefix = typeName(type: type(of: value), namespaced: true)
-        }
-        if typePrefix == "SwiftUI.EnvironmentReaderView" {
-            let typeWithParams = typeName(type: type(of: value))
-            if typeWithParams.contains("NavigationBarItemsKey") {
+        guard let firstPrefix = namespacedPrefixes.first
+        else { return }
+        let shortName = typeName(type: type(of: value))
+        let longName = typeName(type: type(of: value), namespaced: true, prefixOnly: true)
+        if longName.hasPrefix("SwiftUI.EnvironmentReaderView") {
+            if shortName.contains("NavigationBarItemsKey") {
                 throw InspectionError.notSupported(
                     """
                     Please insert '.navigationBarItems()' before \(inspectionCall) \
                     for unwrapping the underlying view hierarchy.
                     """)
+            } else if shortName.contains("_AnchorWritingModifier") {
+                throw InspectionError.notSupported(
+                    "Unwrapping the view under popover is not supported on iOS 14.0 and 14.1")
             }
         }
-        if namespacedPrefixes.contains(typePrefix) {
-            return
-        }
-        if let prefix = namespacedPrefixes.first {
-            let typePrefix = typeName(type: type(of: value), namespaced: true)
-            throw InspectionError.typeMismatch(factual: typePrefix, expected: prefix)
+        guard namespacedPrefixes.contains(where: { longName.hasPrefix($0) }) else {
+            throw InspectionError.typeMismatch(factual: longName, expected: firstPrefix)
         }
     }
 }
@@ -279,12 +214,8 @@ internal extension Inspector {
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, *)
 extension InspectionError {
     static func typeMismatch<V, T>(_ value: V, _ expectedType: T.Type) -> InspectionError {
-        var factual = Inspector.typeName(value: value)
-        var expected = Inspector.typeName(type: expectedType)
-        if factual == expected {
-            factual = Inspector.typeName(value: value, namespaced: true)
-            expected = Inspector.typeName(type: expectedType, namespaced: true)
-        }
-        return .typeMismatch(factual: factual, expected: expected)
+        return .typeMismatch(
+            factual: Inspector.typeName(value: value),
+            expected: Inspector.typeName(type: expectedType))
     }
 }

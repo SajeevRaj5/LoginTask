@@ -50,19 +50,8 @@ public extension InspectableView {
             path: "modifier|value|some", type: EdgeInsets.self, call: "listRowInsets")
     }
     
-    func listRowBackground(_ index: Int? = nil) throws -> InspectableView<ViewType.ClassifiedView> {
-        return try contentForModifierLookup.listRowBackground(parent: self, index: index)
-    }
-
-    func listItemTint() throws -> (color: Color, isFixed: Bool) {
-        let color = try modifierAttribute(
-            modifierName: "_TraitWritingModifier<ListItemTintTraitKey>",
-            path: "modifier|value|some|effect|color", type: Color.self, call: "listItemTint")
-        let isFixed = try modifierAttribute(
-            modifierName: "_TraitWritingModifier<ListItemTintTraitKey>",
-            path: "modifier|value|some|isFixed", type: Bool.self, call: "listItemTint")
-
-        return (color, isFixed)
+    func listRowBackground() throws -> InspectableView<ViewType.ClassifiedView> {
+        return try contentForModifierLookup.listRowBackground(parent: self)
     }
 
     func listStyle() throws -> Any {
@@ -76,15 +65,11 @@ public extension InspectableView {
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, *)
 internal extension Content {
     
-    func listRowBackground(parent: UnwrappedView, index: Int?) throws -> InspectableView<ViewType.ClassifiedView> {
+    func listRowBackground(parent: UnwrappedView) throws -> InspectableView<ViewType.ClassifiedView> {
         let view = try modifierAttribute(
             modifierName: "_TraitWritingModifier<ListRowBackgroundTraitKey>",
-            path: "modifier|value|some|storage|view", type: Any.self,
-            call: "listRowBackground", index: index ?? 0)
+            path: "modifier|value|some|storage|view", type: Any.self, call: "listRowBackground")
         let medium = self.medium.resettingViewModifiers()
-        let content = try Inspector.unwrap(content: Content(view, medium: medium))
-        let call = ViewType.inspectionCall(
-            base: "listRowBackground(\(ViewType.indexPlaceholder))", index: index)
-        return try .init(content, parent: parent, call: call, index: index)
+        return try .init(try Inspector.unwrap(content: Content(view, medium: medium)), parent: parent)
     }
 }

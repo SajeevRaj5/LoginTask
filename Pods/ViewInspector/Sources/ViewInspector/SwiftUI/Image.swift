@@ -36,16 +36,10 @@ extension ViewType.Image: SupplementaryChildren {
         return .init(count: 1) { index in
             let image = try Inspector.cast(value: parent.content.view, type: Image.self)
                 .rootImage()
-            let labelView: Any = try {
-                if let view = try? Inspector.attribute(path: "provider|base|label|some|text", value: image) {
-                    return view
-                }
-                return try Inspector.attribute(path: "provider|base|label", value: image)
-            }()
+            let labelView = try Inspector.attribute(path: "provider|base|label", value: image)
             let medium = parent.content.medium.resettingViewModifiers()
             let content = try Inspector.unwrap(content: Content(labelView, medium: medium))
-            return try InspectableView<ViewType.ClassifiedView>(
-                content, parent: parent, call: "labelView()")
+            return try .init(content, parent: parent, call: "labelView()")
         }
     }
 }
@@ -60,8 +54,7 @@ public extension InspectableView where View == ViewType.Image {
     }
     
     func labelView() throws -> InspectableView<ViewType.Text> {
-        return try View.supplementaryChildren(self).element(at: 0)
-            .asInspectableView(ofType: ViewType.Text.self)
+        return try View.supplementaryChildren(self).element(at: 0).text()
     }
 }
 
@@ -79,7 +72,7 @@ public extension SwiftUI.Image {
             .attribute(label: "name", value: rawImage(), type: String.self)
     }
     
-    #if !os(macOS)
+    #if os(iOS) || os(tvOS)
     func uiImage() throws -> UIImage {
         return try Inspector.cast(value: try rawImage(), type: UIImage.self)
     }

@@ -54,7 +54,6 @@ public extension InspectableView where View == ViewType.Menu {
     
     func labelView() throws -> InspectableView<ViewType.ClassifiedView> {
         return try View.supplementaryChildren(self).element(at: 0)
-            .asInspectableView(ofType: ViewType.ClassifiedView.self)
     }
 }
 
@@ -74,10 +73,8 @@ public extension InspectableView {
 
 // MARK: - MenuStyle inspection
 
-#if os(iOS) || os(macOS)
 @available(iOS 14.0, macOS 11.0, *)
 @available(tvOS, unavailable)
-@available(watchOS, unavailable)
 public extension MenuStyle {
     func inspect() throws -> InspectableView<ViewType.ClassifiedView> {
         let config = MenuStyleConfiguration()
@@ -90,21 +87,9 @@ public extension MenuStyle {
 
 @available(iOS 14.0, macOS 11.0, *)
 @available(tvOS, unavailable)
-@available(watchOS, unavailable)
 private extension MenuStyleConfiguration {
-    struct Allocator0 { }
-    struct Allocator16 {
-        let data: (Int64, Int64) = (0, 0)
-    }
+    struct Allocator { }
     init() {
-        switch MemoryLayout<Self>.size {
-        case 0:
-            self = unsafeBitCast(Allocator0(), to: Self.self)
-        case 16:
-            self = unsafeBitCast(Allocator16(), to: Self.self)
-        default:
-            fatalError(MemoryLayout<Self>.actualSize())
-        }
+        self = unsafeBitCast(Allocator(), to: Self.self)
     }
 }
-#endif

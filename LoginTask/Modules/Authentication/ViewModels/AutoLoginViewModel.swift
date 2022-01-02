@@ -8,7 +8,7 @@
 import SwiftUI
 import LocalAuthentication
 
-class AutoLoginViewModel {
+final class AutoLoginViewModel {
     let context = LAContext()
     @Published private(set) var isAuthorized: Bool = false
 

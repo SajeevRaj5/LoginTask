@@ -2,7 +2,7 @@
 
 <span align="center">
   
-![Platform](https://img.shields.io/badge/platform-iOS%20%7C%20macOS%20%7C%20tvOS%20%7C%20watchOS-lightgrey) [![Build Status](https://travis-ci.com/nalexn/ViewInspector.svg?branch=master)](https://travis-ci.com/nalexn/ViewInspector) [![codecov](https://codecov.io/gh/nalexn/ViewInspector/branch/master/graph/badge.svg)](https://codecov.io/gh/nalexn/ViewInspector)
+![Platform](https://img.shields.io/badge/platform-iOS%20%7C%20tvOS%20%7C%20macOS-lightgrey) [![Build Status](https://travis-ci.com/nalexn/ViewInspector.svg?branch=master)](https://travis-ci.com/nalexn/ViewInspector) [![codecov](https://codecov.io/gh/nalexn/ViewInspector/branch/master/graph/badge.svg)](https://codecov.io/gh/nalexn/ViewInspector)
 
 </span>
 
@@ -33,7 +33,18 @@ try sut.inspect().findAll(ViewType.Text.self,
 
 Check out [this section](guide.md#dynamic-query-with-find) in the guide for the reference.
 
-### 2. Read the inner state of the standard views
+### 2. Verify your custom view's state
+
+Obtain a copy of your custom view with actual state and references from the hierarchy of any depth:
+
+```swift
+let sut = try view.inspect().find(CustomView.self).actualView()
+XCTAssertTrue(sut.viewModel.isUserLoggedIn)
+```
+
+The library can operate with various types of the view's state, such as `@Binding`, `@State`, `@ObservedObject` and `@EnvironmentObject`.
+
+### 3. Read the inner state of the standard views
 
 Standard SwiftUI views are no longer a black box:
 
@@ -47,17 +58,6 @@ XCTAssertEqual(try sut.inspect().text().attributes().font(), .caption)
 ```
 
 Each view has its own set of inspectable parameters, you can refer to the [API coverage](readiness.md) document to see what's available for a particular SwiftUI view.
-
-### 3. Verify your custom view's state
-
-Obtain a copy of your custom view with actual state and references from the hierarchy of any depth:
-
-```swift
-let sut = try view.inspect().find(CustomView.self).actualView()
-XCTAssertTrue(sut.viewModel.isUserLoggedIn)
-```
-
-The library can operate with various types of the view's state, such as `@Binding`, `@State`, `@ObservedObject` and `@EnvironmentObject`.
 
 ### 4. Trigger side effects
 
@@ -76,7 +76,7 @@ The library provides helpers for writing asynchronous tests for views with callb
 
 ### Which views and modifiers are supported?
 
-Check out the [API coverage](readiness.md). There is currently almost full support for SwiftUI v1 API, the v2 and v3 support is under active development.
+Check out the [API coverage](readiness.md). There is currently almost full support for SwiftUI 1.0 API, the 2.0 support is under active development.
 
 ### Is it using private APIs?
 

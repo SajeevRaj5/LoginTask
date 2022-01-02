@@ -43,7 +43,6 @@ public extension InspectableView where View == ViewType.Slider {
     
     func labelView() throws -> InspectableView<ViewType.ClassifiedView> {
         return try View.supplementaryChildren(self).element(at: 0)
-            .asInspectableView(ofType: ViewType.ClassifiedView.self)
     }
     
     func value() throws -> Double {
@@ -51,7 +50,6 @@ public extension InspectableView where View == ViewType.Slider {
     }
     
     func setValue(_ value: Double) throws {
-        try guardIsResponsive()
         try valueBinding().wrappedValue = value
     }
     

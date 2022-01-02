@@ -8,7 +8,7 @@
 import GoogleSignIn
 import SwiftUI
 
-class AuthenticationViewModel: NSObject, ObservableObject {
+final class AuthenticationViewModel: NSObject, ObservableObject {
     
     enum SignInMode {
         case google
@@ -20,7 +20,7 @@ class AuthenticationViewModel: NSObject, ObservableObject {
     
     private let service: LoginServiceProtocol
     
-    init(service: LoginServiceProtocol) {
+    init(service: LoginServiceProtocol = LoginService()) {
         self.service = service
     }
 

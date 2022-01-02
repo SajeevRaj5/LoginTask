@@ -108,13 +108,11 @@ public extension ViewType.Text.Attributes {
     func isStrikethrough() throws -> Bool {
         return try commonTrait(name: "strikethrough") { modifier -> Bool? in
             guard let child = try? Inspector.attribute(label: "anyTextModifier", value: modifier),
-                Inspector.typeName(value: child) == "StrikethroughTextModifier"
+                Inspector.typeName(value: child) == "StrikethroughTextModifier",
+                let active = try? Inspector
+                    .attribute(path: "lineStyle|some|active", value: child, type: Bool.self)
                 else { return nil }
-            if let active = try? Inspector
-                .attribute(path: "lineStyle|some|active", value: child, type: Bool.self) {
-                return active
-            }
-            return (try? Inspector.attribute(path: "lineStyle|some|nsUnderlineStyle", value: child)) != nil
+            return active
         }
     }
     
@@ -129,28 +127,14 @@ public extension ViewType.Text.Attributes {
         }
     }
     
-    @available(iOS 15.0, tvOS 15.0, macOS 11.6, *)
-    func strikethroughStyle() throws -> NSUnderlineStyle {
-        return try commonTrait(name: "strikethrough") { modifier -> NSUnderlineStyle? in
-            guard let child = try? Inspector.attribute(label: "anyTextModifier", value: modifier),
-                Inspector.typeName(value: child) == "StrikethroughTextModifier",
-                let value = try? Inspector
-                    .attribute(path: "lineStyle|some|nsUnderlineStyle", value: child, type: NSUnderlineStyle.self)
-                else { return nil }
-            return value
-        }
-    }
-    
     func isUnderline() throws -> Bool {
         return try commonTrait(name: "underline") { modifier -> Bool? in
             guard let child = try? Inspector.attribute(label: "anyTextModifier", value: modifier),
-                Inspector.typeName(value: child) == "UnderlineTextModifier"
+                Inspector.typeName(value: child) == "UnderlineTextModifier",
+                let active = try? Inspector
+                    .attribute(path: "lineStyle|some|active", value: child, type: Bool.self)
                 else { return nil }
-            if let active = try? Inspector
-                .attribute(path: "lineStyle|some|active", value: child, type: Bool.self) {
-                return active
-            }
-            return (try? Inspector.attribute(path: "lineStyle|some|nsUnderlineStyle", value: child)) != nil
+            return active
         }
     }
     
@@ -162,18 +146,6 @@ public extension ViewType.Text.Attributes {
                     .attribute(path: "lineStyle|some|color", value: child, type: Color?.self)
                 else { return nil }
             return color
-        }
-    }
-    
-    @available(iOS 15.0, tvOS 15.0, macOS 11.6, *)
-    func underlineStyle() throws -> NSUnderlineStyle {
-        return try commonTrait(name: "underline") { modifier -> NSUnderlineStyle? in
-            guard let child = try? Inspector.attribute(label: "anyTextModifier", value: modifier),
-                Inspector.typeName(value: child) == "UnderlineTextModifier",
-                let value = try? Inspector
-                    .attribute(path: "lineStyle|some|nsUnderlineStyle", value: child, type: NSUnderlineStyle.self)
-                else { return nil }
-            return value
         }
     }
     
@@ -270,7 +242,7 @@ public extension ViewType.Text {
                 return nil
             }
             guard let trait = traits.first else {
-                throw InspectionError.modifierNotFound(parent: "Text", modifier: name, index: 0)
+                throw InspectionError.modifierNotFound(parent: "Text", modifier: name)
             }
             guard traits.count == chunks.count else {
                 throw InspectionError.textAttribute("Modifier '\(name)' is applied only to a subrange")
@@ -296,7 +268,7 @@ public extension Font {
     }
     
     func isFixedSize() -> Bool {
-        guard #available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+        guard #available(iOS 14.0, macOS 11.0, tvOS 14.0, *)
         else { return false }
         guard let provider = try? Inspector.attribute(path: "provider|base", value: self),
               Inspector.typeName(value: provider) == "NamedProvider"

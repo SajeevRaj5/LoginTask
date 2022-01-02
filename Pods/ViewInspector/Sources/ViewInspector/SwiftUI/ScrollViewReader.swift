@@ -34,7 +34,7 @@ public extension InspectableView where View: MultipleViewContent {
 extension ViewType.ScrollViewReader: SingleViewContent {
     
     public static func child(_ content: Content) throws -> Content {
-        let provider = try Inspector.cast(value: content.view, type: SingleViewProvider.self)
+        let provider = try Inspector.cast(value: content.view, type: ScrollViewReaderContentProvider.self)
         let medium = content.medium.resettingViewModifiers()
         return try Inspector.unwrap(view: provider.view(), medium: medium)
     }
@@ -42,8 +42,12 @@ extension ViewType.ScrollViewReader: SingleViewContent {
 
 // MARK: - Private
 
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
-extension ScrollViewReader: SingleViewProvider {
+private protocol ScrollViewReaderContentProvider {
+    func view() throws -> Any
+}
+
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, *)
+extension ScrollViewReader: ScrollViewReaderContentProvider {
     func view() throws -> Any {
         typealias Builder = (ScrollViewProxy) -> Content
         let builder = try Inspector
@@ -52,7 +56,7 @@ extension ScrollViewReader: SingleViewProvider {
     }
 }
 
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, *)
 private extension ScrollViewProxy {
     struct Allocator8 {
         let data: Int64 = 0

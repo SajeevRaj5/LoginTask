@@ -43,11 +43,9 @@ public extension InspectableView where View == ViewType.Stepper {
     
     func labelView() throws -> InspectableView<ViewType.ClassifiedView> {
         return try View.supplementaryChildren(self).element(at: 0)
-            .asInspectableView(ofType: ViewType.ClassifiedView.self)
     }
     
     func increment() throws {
-        try guardIsResponsive()
         typealias Callback = () -> Void
         let callback = try Inspector
             .attribute(path: path(to: "onIncrement"), value: content.view, type: Callback.self)
@@ -55,7 +53,6 @@ public extension InspectableView where View == ViewType.Stepper {
     }
     
     func decrement() throws {
-        try guardIsResponsive()
         typealias Callback = () -> Void
         let callback = try Inspector
             .attribute(path: path(to: "onDecrement"), value: content.view, type: Callback.self)

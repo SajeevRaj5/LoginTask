@@ -5,11 +5,11 @@ import SwiftUI
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, *)
 public extension InspectableView {
     
-    func labelsHidden() -> Bool {
-        return (try? modifierAttribute(modifierLookup: { modifier -> Bool in
+    func labelsHidden() throws -> Bool {
+        _  = try modifierAttribute(modifierLookup: { modifier -> Bool in
             modifier.modifierType.hasPrefix("_LabeledViewStyleModifier<HiddenLabel")
-        }, transitive: true, path: "modifier|style",
-        type: Any.self, call: "labelsHidden")) != nil
+        }, path: "modifier|style", type: Any.self, call: "labelsHidden")
+        return true
     }
     
     #if os(macOS)

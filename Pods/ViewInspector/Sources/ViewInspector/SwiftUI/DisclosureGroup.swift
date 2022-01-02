@@ -54,7 +54,6 @@ public extension InspectableView where View == ViewType.DisclosureGroup {
     
     func labelView() throws -> InspectableView<ViewType.ClassifiedView> {
         return try View.supplementaryChildren(self).element(at: 0)
-            .asInspectableView(ofType: ViewType.ClassifiedView.self)
     }
     
     func isExpanded() throws -> Bool {

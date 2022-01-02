@@ -32,13 +32,7 @@ public extension InspectableView where View: MultipleViewContent {
 
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, *)
 extension ViewType.Toggle: SupplementaryChildrenLabelView {
-    static var labelViewPath: String {
-        if #available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *) {
-            return "label"
-        } else {
-            return "_label"
-        }
-    }
+    static var labelViewPath: String { "_label" }
 }
 
 // MARK: - Custom Attributes
@@ -48,11 +42,9 @@ public extension InspectableView where View == ViewType.Toggle {
     
     func labelView() throws -> InspectableView<ViewType.ClassifiedView> {
         return try View.supplementaryChildren(self).element(at: 0)
-            .asInspectableView(ofType: ViewType.ClassifiedView.self)
     }
     
     func tap() throws {
-        try guardIsResponsive()
         try isOnBinding().wrappedValue.toggle()
     }
     
@@ -61,12 +53,8 @@ public extension InspectableView where View == ViewType.Toggle {
     }
     
     private func isOnBinding() throws -> Binding<Bool> {
-        if let binding = try? Inspector
-            .attribute(label: "__isOn", value: content.view, type: Binding<Bool>.self) {
-            return binding
-        }
         return try Inspector
-            .attribute(label: "_isOn", value: content.view, type: Binding<Bool>.self)
+            .attribute(label: "__isOn", value: content.view, type: Binding<Bool>.self)
     }
 }
 

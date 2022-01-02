@@ -31,6 +31,9 @@ public extension InspectableView where View: MultipleViewContent {
 // MARK: - Non Standard Children
 
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, *)
+// MARK: - Non Standard Children
+
+@available(iOS 13.0, macOS 10.15, tvOS 13.0, *)
 extension ViewType.Label: SupplementaryChildren {
     static func supplementaryChildren(_ parent: UnwrappedView) throws -> LazyGroup<SupplementaryView> {
         return .init(count: 2) { index in
@@ -38,13 +41,11 @@ extension ViewType.Label: SupplementaryChildren {
             if index == 0 {
                 let child = try Inspector.attribute(label: "title", value: parent.content.view)
                 let content = try Inspector.unwrap(content: Content(child, medium: medium))
-                return try InspectableView<ViewType.ClassifiedView>(
-                    content, parent: parent, call: "title()")
+                return try .init(content, parent: parent, call: "title()")
             } else {
                 let child = try Inspector.attribute(label: "icon", value: parent.content.view)
                 let content = try Inspector.unwrap(content: Content(child, medium: medium))
-                return try InspectableView<ViewType.ClassifiedView>(
-                    content, parent: parent, call: "icon()")
+                return try .init(content, parent: parent, call: "icon()")
             }
         }
     }
@@ -57,12 +58,10 @@ public extension InspectableView where View == ViewType.Label {
     
     func title() throws -> InspectableView<ViewType.ClassifiedView> {
         return try View.supplementaryChildren(self).element(at: 0)
-            .asInspectableView(ofType: ViewType.ClassifiedView.self)
     }
     
     func icon() throws -> InspectableView<ViewType.ClassifiedView> {
         return try View.supplementaryChildren(self).element(at: 1)
-            .asInspectableView(ofType: ViewType.ClassifiedView.self)
     }
 }
 
@@ -73,8 +72,7 @@ public extension InspectableView {
 
     func labelStyle() throws -> Any {
         let modifier = try self.modifier({ modifier -> Bool in
-            return ["LabelStyleModifier", "LabelStyleWritingModifier"]
-                .contains(where: { modifier.modifierType.hasPrefix($0) })
+            return modifier.modifierType.hasPrefix("LabelStyleModifier")
         }, call: "labelStyle")
         return try Inspector.attribute(path: "modifier|style", value: modifier)
     }
@@ -82,7 +80,7 @@ public extension InspectableView {
 
 // MARK: - LabelStyle inspection
 
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, *)
 public extension LabelStyle {
     func inspect() throws -> InspectableView<ViewType.ClassifiedView> {
         let config = LabelStyleConfiguration()
@@ -93,7 +91,7 @@ public extension LabelStyle {
 
 // MARK: - Style Configuration initializer
 
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, *)
 private extension LabelStyleConfiguration {
     struct Allocator { }
     init() {

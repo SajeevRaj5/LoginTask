@@ -82,13 +82,15 @@ public extension InspectableView {
         return (color, radius, offset)
     }
     
-    func border<S: ShapeStyle>(_ style: S.Type) throws -> (shapeStyle: S, width: CGFloat) {
-        let shape = try contentForModifierLookup
-            .overlay(parent: self, api: .border, index: nil)
-            .shape()
-        let shapeStyle = try shape.fillShapeStyle(style)
-        let width = try shape.strokeStyle().lineWidth
-        return (shapeStyle, width)
+    func border<S>(_ type: S.Type) throws -> (content: S, width: CGFloat) {
+        let content = try modifierAttribute(modifierName:
+            "_OverlayModifier<_ShapeView<_StrokedShape", path: "modifier|overlay|style",
+            type: Any.self, call: "border")
+        let castedContent = try Inspector.cast(value: content, type: S.self)
+        let width = try modifierAttribute(modifierName:
+            "_OverlayModifier<_ShapeView<_StrokedShape", path: "modifier|overlay|shape|style|lineWidth",
+            type: CGFloat.self, call: "border")
+        return (castedContent, width)
     }
     
     func blendMode() throws -> BlendMode {
@@ -125,22 +127,20 @@ public extension InspectableView {
         return shape.cornerSize.width
     }
     
-    func mask(_ index: Int? = nil) throws -> InspectableView<ViewType.ClassifiedView> {
-        return try contentForModifierLookup.mask(parent: self, index: index)
+    func mask() throws -> InspectableView<ViewType.ClassifiedView> {
+        return try contentForModifierLookup.mask(parent: self)
     }
 }
 
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, *)
 internal extension Content {
-    func mask(parent: UnwrappedView, index: Int?) throws -> InspectableView<ViewType.ClassifiedView> {
+    func mask(parent: UnwrappedView) throws -> InspectableView<ViewType.ClassifiedView> {
         let rootView = try modifierAttribute(
             modifierName: "_MaskEffect", path: "modifier|mask",
-            type: Any.self, call: "mask", index: index ?? 0)
+            type: Any.self, call: "mask")
         let medium = self.medium.resettingViewModifiers()
-        let call = ViewType.inspectionCall(
-            base: "mask(\(ViewType.indexPlaceholder))", index: index)
         return try .init(try Inspector.unwrap(content: Content(rootView, medium: medium)),
-                         parent: parent, call: call, index: index)
+                         parent: parent, call: "mask()")
     }
 }
 
@@ -150,57 +150,23 @@ internal extension Content {
 public extension InspectableView {
     
     func isHidden() -> Bool {
-        if labelsHidden() && isControlLabelDescendant() {
-            return true
-        }
         return (try? modifierAttribute(
-                    modifierName: "_HiddenModifier", transitive: true,
-                    path: "modifier", type: Any.self, call: "hidden")) != nil
+            modifierName: "_HiddenModifier", path: "modifier",
+            type: Any.self, call: "hidden")) != nil
     }
     
-    func isDisabled() -> Bool {
-        typealias Closure = (inout Bool) -> Void
-        return modifiersMatching({ modifier -> Bool in
-            guard modifier.isDisabledEnvironmentKeyTransformModifier(),
-                  let closure = try? Inspector.attribute(
-                    path: "modifier|transform", value: modifier, type: Closure.self)
-            else { return false }
-            var value = true
-            closure(&value)
-            return !value
-        }, transitive: true).count > 0
-    }
-}
-
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, *)
-private extension UnwrappedView {
-    func isControlLabelDescendant() -> Bool {
-        guard let parent = parentView, let grandParent = parent.parentView
-        else { return false }
-        if parent.inspectionCall == "labelView()",
-           grandParent is InspectableView<ViewType.ColorPicker>
-        || grandParent is InspectableView<ViewType.DatePicker>
-        || grandParent is InspectableView<ViewType.Picker>
-        || grandParent is InspectableView<ViewType.ProgressView>
-        || grandParent is InspectableView<ViewType.Slider>
-        || grandParent is InspectableView<ViewType.Stepper>
-        || grandParent is InspectableView<ViewType.TextField>
-        || grandParent is InspectableView<ViewType.Toggle> {
-            return true
-        }
-        return parent.isControlLabelDescendant()
-    }
-}
-
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, *)
-internal extension ModifierNameProvider {
-    func isDisabledEnvironmentKeyTransformModifier() -> Bool {
+    func isDisabled() throws -> Bool {
         let reference = EmptyView().disabled(true)
-        guard let referenceKeyPath = try? Inspector.environmentKeyPath(Bool.self, reference),
-              self.modifierType == "_EnvironmentKeyTransformModifier<Bool>",
-              let keyPath = try? Inspector.environmentKeyPath(Bool.self, self),
-              keyPath == referenceKeyPath
-        else { return false }
-        return true
+        typealias Closure = (inout Bool) -> Void
+        let referenceKeyPath = try Inspector.environmentKeyPath(Bool.self, reference)
+        let closure = try modifierAttribute(modifierLookup: { modifier -> Bool in
+            guard modifier.modifierType == "_EnvironmentKeyTransformModifier<Bool>",
+                  let keyPath = try? Inspector.environmentKeyPath(Bool.self, modifier)
+            else { return false }
+            return keyPath == referenceKeyPath
+        }, path: "modifier|transform", type: Closure.self, call: "disabled")
+        var value = true
+        closure(&value)
+        return !value
     }
 }
