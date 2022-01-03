@@ -1,5 +1,5 @@
 //
-//  AuthenticationViewModel.swift
+//  LoginViewModel.swift
 //  LoginTask
 //
 //  Created by Sajeev Raj on 14/12/2021.
@@ -8,7 +8,7 @@
 import GoogleSignIn
 import SwiftUI
 
-final class AuthenticationViewModel: NSObject, ObservableObject {
+final class LoginViewModel: NSObject, ObservableObject {
     
     enum SignInMode {
         case google

@@ -15,7 +15,7 @@
 		1308613E2782568200DBE900 /* AuthenticationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1308613D2782568200DBE900 /* AuthenticationViewModelTests.swift */; };
 		1308614627826B4900DBE900 /* HomeViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1308614527826B4900DBE900 /* HomeViewTests.swift */; };
 		1308614B27826B5600DBE900 /* HomeViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1308614A27826B5600DBE900 /* HomeViewModelTests.swift */; };
-		13296E88276930D100344829 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13296E87276930D100344829 /* AuthenticationViewModel.swift */; };
+		13296E88276930D100344829 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13296E87276930D100344829 /* LoginViewModel.swift */; };
 		13296E912769498800344829 /* AlertErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13296E902769498800344829 /* AlertErrorHandler.swift */; };
 		13923B4127710BE8000E4AFA /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13923B4027710BE8000E4AFA /* HomeView.swift */; };
 		13923B4627711223000E4AFA /* LoginTaskApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13923B4527711223000E4AFA /* LoginTaskApp.swift */; };
@@ -67,7 +67,7 @@
 		1308613D2782568200DBE900 /* AuthenticationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModelTests.swift; sourceTree = "<group>"; };
 		1308614527826B4900DBE900 /* HomeViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewTests.swift; sourceTree = "<group>"; };
 		1308614A27826B5600DBE900 /* HomeViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelTests.swift; sourceTree = "<group>"; };
-		13296E87276930D100344829 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
+		13296E87276930D100344829 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		13296E902769498800344829 /* AlertErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertErrorHandler.swift; sourceTree = "<group>"; };
 		13923B4027710BE8000E4AFA /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		13923B4527711223000E4AFA /* LoginTaskApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTaskApp.swift; sourceTree = "<group>"; };
@@ -348,7 +348,7 @@
 		13BE5AEB2762994B00C5E617 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				13296E87276930D100344829 /* AuthenticationViewModel.swift */,
+				13296E87276930D100344829 /* LoginViewModel.swift */,
 				130860482781BF8700DBE900 /* AutoLoginViewModel.swift */,
 			);
 			path = ViewModels;
@@ -671,7 +671,7 @@
 				130860492781BF8700DBE900 /* AutoLoginViewModel.swift in Sources */,
 				13BE5B142762B6F200C5E617 /* CustomButton.swift in Sources */,
 				1308602F277E106900DBE900 /* Authentication.swift in Sources */,
-				13296E88276930D100344829 /* AuthenticationViewModel.swift in Sources */,
+				13296E88276930D100344829 /* LoginViewModel.swift in Sources */,
 				13923B5627713966000E4AFA /* LoginService.swift in Sources */,
 				13923B4D277117CD000E4AFA /* UserViewModel.swift in Sources */,
 				130860442781BE4900DBE900 /* AutoLoginView.swift in Sources */,

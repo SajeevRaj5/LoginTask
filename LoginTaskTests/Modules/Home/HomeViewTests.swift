@@ -29,14 +29,18 @@ class HomeViewTests: XCTestCase {
     }
     
     func testSignOut() throws {
+        let authentication = Authentication()
+        authentication.state = .signedIn(userViewModel: UserViewModel(user: User(name: "abc", email: "abc@gmail.com")))
         var homeView = HomeView(viewModel: viewModel)
+
         let expectation = homeView.on(\.didAppear) { view in
             let button = try homeView.inspect().find(button: "Log out")
             try button.tap()
             XCTAssertEqual(homeView.authentication.state, SignInState.signedOut)
         }
-        ViewHosting.host(view: homeView.environmentObject(Authentication()))
-        wait(for: [expectation], timeout: 0.1)
+        ViewHosting.host(view: homeView.environmentObject(authentication))
+
+        wait(for: [expectation], timeout: 1.0)
     }
 }
 

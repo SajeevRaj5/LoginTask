@@ -11,7 +11,7 @@ struct LoginView: View {
     
     @EnvironmentObject var authentication: Authentication
 
-    @ObservedObject var viewModel: AuthenticationViewModel
+    @ObservedObject var viewModel: LoginViewModel
     
     //MARK: - PROPERTIES
     @State var username: String = ""
@@ -85,7 +85,7 @@ struct LoginView: View {
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView(viewModel: AuthenticationViewModel())
+        LoginView(viewModel: LoginViewModel())
     }
 }
 
