@@ -17,7 +17,8 @@ final class AuthenticationViewModel: NSObject, ObservableObject {
     }
 
     @Published private(set) var error: Error?
-    
+    @Published var signedInState: SignInState = .signedOut
+
     private let service: LoginServiceProtocol
     
     init(service: LoginServiceProtocol = LoginService()) {
@@ -36,6 +37,7 @@ final class AuthenticationViewModel: NSObject, ObservableObject {
                     DispatchQueue.main.async {
                         // map to view model
                         let viewModel = UserViewModel(user: User(name: user.name,email: user.email ))
+                        self?.signedInState = .signedIn(userViewModel: viewModel)
                         completion(viewModel)
                     }
                 case .failure(let error):
@@ -45,9 +47,5 @@ final class AuthenticationViewModel: NSObject, ObservableObject {
         default:
             break
         }
-    }
-    
-    func validate() {
-        
     }
 }

@@ -11,17 +11,16 @@ struct LoginView: View {
     
     @EnvironmentObject var authentication: Authentication
 
-    @State var viewModel: AuthenticationViewModel
+    @ObservedObject var viewModel: AuthenticationViewModel
     
     //MARK: - PROPERTIES
     @State var username: String = ""
     @State var password: String = ""
     @State private var isCredentialsValid: Bool = true
-    @State var signedInState: SignInState = .signedOut
     
     var body: some View {
         
-        switch signedInState{
+        switch viewModel.signedInState{
         case .signedOut:
             LoginInScreenView()
         case .signedIn(let userViewModel):
@@ -65,7 +64,6 @@ struct LoginView: View {
                         let rootView = getRootViewController()
                         viewModel.signIn(type: .google, from: rootView, completion: { viewModel in
                             self.authentication.loggedInMode = .google
-                            signedInState = .signedIn(userViewModel: viewModel)
                         })
                     }){
                         Text("Sign In with Google")

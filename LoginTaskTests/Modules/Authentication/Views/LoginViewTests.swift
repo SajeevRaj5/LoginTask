@@ -30,7 +30,7 @@ class LoginViewTests: XCTestCase {
     
     func testIfGoogleButtonIsShwon() throws {
         let loginViewSubject = LoginView(viewModel: AuthenticationViewModel(service: MockLoginService()))
-        loginViewSubject.signedInState = .signedOut
+        loginViewSubject.viewModel.signedInState = .signedOut
         let button = try loginViewSubject.inspect().find(button: "Sign In with Google")
         XCTAssertNotNil(button)
     }

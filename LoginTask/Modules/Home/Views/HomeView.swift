@@ -11,7 +11,10 @@ struct HomeView: View {
     
     @EnvironmentObject var authentication: Authentication
     @State var viewModel: UserViewModel
-
+    
+    // this is added for view inspector testing
+    internal var didAppear: ((Self) -> Void)?
+    
     var body: some View {
         ZStack {
             VStack {
@@ -24,7 +27,7 @@ struct HomeView: View {
                     authentication.state = .signedOut
                 }
             }
-            
         }
+        .onAppear { self.didAppear?(self) }
     }
 }

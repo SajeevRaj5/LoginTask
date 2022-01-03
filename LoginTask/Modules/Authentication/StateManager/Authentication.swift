@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-enum SignInState {
+enum SignInState: Equatable {
     case signedIn(userViewModel: UserViewModel)
     case signedOut
     case undetermined
