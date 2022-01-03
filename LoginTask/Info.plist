@@ -16,6 +16,11 @@
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
+	<key>Configuration</key>
+	<dict>
+		<key>googleClientID</key>
+		<string>$(GOOGLE_CLIENT_ID)</string>
+	</dict>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

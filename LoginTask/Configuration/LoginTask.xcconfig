@@ -1,0 +1,11 @@
+//
+//  LoginTask.xcconfig
+//  LoginTask
+//
+//  Created by Sajeev Raj on 03/01/2022.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+GOOGLE_CLIENT_ID = 686900365153-42p9bnd5joqk5rt41fqjthe1u89mqlp1.apps.googleusercontent.com

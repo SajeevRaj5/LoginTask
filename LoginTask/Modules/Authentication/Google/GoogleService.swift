@@ -20,4 +20,18 @@ class GoogleService {
             completion(.success(googleUser))
         }
     }
+    
+    static func signIn(viewController: UIViewController, completion: @escaping (Result<GIDProfileData, Error>) -> Void) {
+        guard let clientID = Configuration.current.googleClientID else { return }
+        let configuration = GIDConfiguration(clientID: clientID)
+        GIDSignIn.sharedInstance.signIn(with: configuration, presenting: viewController) { (user, error) in
+            if let googleSignInError = error {
+                completion(.failure(googleSignInError))
+            }
+            guard let googleUser = user?.profile else {
+                return
+            }
+            completion(.success(googleUser))
+        }
+    }
 }

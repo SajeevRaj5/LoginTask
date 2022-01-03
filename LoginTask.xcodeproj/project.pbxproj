@@ -15,6 +15,7 @@
 		1308613E2782568200DBE900 /* AuthenticationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1308613D2782568200DBE900 /* AuthenticationViewModelTests.swift */; };
 		1308614627826B4900DBE900 /* HomeViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1308614527826B4900DBE900 /* HomeViewTests.swift */; };
 		1308614B27826B5600DBE900 /* HomeViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1308614A27826B5600DBE900 /* HomeViewModelTests.swift */; };
+		130861652783B1CE00DBE900 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130861642783B1CE00DBE900 /* Configuration.swift */; };
 		13296E88276930D100344829 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13296E87276930D100344829 /* LoginViewModel.swift */; };
 		13296E912769498800344829 /* AlertErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13296E902769498800344829 /* AlertErrorHandler.swift */; };
 		13923B4127710BE8000E4AFA /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13923B4027710BE8000E4AFA /* HomeView.swift */; };
@@ -67,6 +68,8 @@
 		1308613D2782568200DBE900 /* AuthenticationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModelTests.swift; sourceTree = "<group>"; };
 		1308614527826B4900DBE900 /* HomeViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewTests.swift; sourceTree = "<group>"; };
 		1308614A27826B5600DBE900 /* HomeViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelTests.swift; sourceTree = "<group>"; };
+		130861532783B10500DBE900 /* LoginTask.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = LoginTask.xcconfig; sourceTree = "<group>"; };
+		130861642783B1CE00DBE900 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		13296E87276930D100344829 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		13296E902769498800344829 /* AlertErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertErrorHandler.swift; sourceTree = "<group>"; };
 		13923B4027710BE8000E4AFA /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -182,6 +185,15 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		130861522783B0B000DBE900 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				130861532783B10500DBE900 /* LoginTask.xcconfig */,
+				130861642783B1CE00DBE900 /* Configuration.swift */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
 		13296E8127692EFB00344829 /* Google */ = {
 			isa = PBXGroup;
 			children = (
@@ -256,6 +268,7 @@
 		13BE5AB22762917A00C5E617 /* LoginTask */ = {
 			isa = PBXGroup;
 			children = (
+				130861522783B0B000DBE900 /* Configuration */,
 				13BE5B182762BBA800C5E617 /* Helpers */,
 				13BC32C0276922530045F2F4 /* GoogleService-Info.plist */,
 				13BE5B0D2762A10C00C5E617 /* Fonts */,
@@ -674,6 +687,7 @@
 				13296E88276930D100344829 /* LoginViewModel.swift in Sources */,
 				13923B5627713966000E4AFA /* LoginService.swift in Sources */,
 				13923B4D277117CD000E4AFA /* UserViewModel.swift in Sources */,
+				130861652783B1CE00DBE900 /* Configuration.swift in Sources */,
 				130860442781BE4900DBE900 /* AutoLoginView.swift in Sources */,
 				1308603F277F3BAF00DBE900 /* GoogleService.swift in Sources */,
 				13BE5AB82762917A00C5E617 /* ContentView.swift in Sources */,
@@ -731,6 +745,7 @@
 /* Begin XCBuildConfiguration section */
 		13BE5AD82762917D00C5E617 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 130861532783B10500DBE900 /* LoginTask.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -792,6 +807,7 @@
 		};
 		13BE5AD92762917D00C5E617 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 130861532783B10500DBE900 /* LoginTask.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
