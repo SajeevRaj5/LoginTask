@@ -23,13 +23,13 @@ class MockLoginService: LoginServiceProtocol {
 class LoginViewTests: XCTestCase {
     
     func testIfWelcomeTextShown() throws {
-        let loginViewSubject = LoginView(viewModel: AuthenticationViewModel(service: MockLoginService()))
+        let loginViewSubject = LoginView(viewModel: LoginViewModel(service: MockLoginService()))
         let text = try loginViewSubject.inspect().navigationView().zStack(0).vStack(2).text(0).string()
         XCTAssertEqual(text, "Welcome")
     }
     
     func testIfGoogleButtonIsShwon() throws {
-        let loginViewSubject = LoginView(viewModel: AuthenticationViewModel(service: MockLoginService()))
+        let loginViewSubject = LoginView(viewModel: LoginViewModel(service: MockLoginService()))
         loginViewSubject.viewModel.signedInState = .signedOut
         let button = try loginViewSubject.inspect().find(button: "Sign In with Google")
         XCTAssertNotNil(button)

@@ -11,11 +11,10 @@ struct AutoLoginView: View {
     @EnvironmentObject var authentication: Authentication
 
     @State var viewModel: AutoLoginViewModel
-    @State var loginState: SignInState = .undetermined
     
     var body: some View {
         
-        switch loginState {
+        switch authentication.state {
         case .undetermined:
             Text("Trying to auto login....")
                 .onAppear(perform: checkAuthentication)
@@ -28,13 +27,6 @@ struct AutoLoginView: View {
     }
     
     private func checkAuthentication() {
-        viewModel.checkAuthentication { (viewModel) in
-            if let userViewModel = viewModel {
-                loginState = .signedIn(userViewModel: userViewModel)
-            }
-            else {
-                loginState = .signedOut
-            }
-        }
+        viewModel.handleAuthentication()
     }
 }

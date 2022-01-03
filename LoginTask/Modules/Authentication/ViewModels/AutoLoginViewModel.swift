@@ -19,11 +19,10 @@ final class AutoLoginViewModel {
         self.authentication = authentication
     }
    
-    func checkAuthentication(completion: @escaping (UserViewModel?) -> ()) {
+    func handleAuthentication() {
         
         guard let loggedInMode = authentication.loggedInMode else {
             authentication.state = .signedOut
-            completion(nil)
             return
         }
         
@@ -31,25 +30,25 @@ final class AutoLoginViewModel {
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
             let reason = "We need authentication to auto login you to the app."
 
-            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { [weak self] success, authenticationError in
 
                 // auto login user with mode. We don't want to show user error in this case. If auto login fails, direct user to Login screen
                 if success {
-                    self.autoLogin(mode: loggedInMode) { (result) in
+                    self?.autoLogin(mode: loggedInMode) { (result) in
                         switch result {
                         case .success(let viewModel):
-                            completion(viewModel)
+                            self?.authentication.state = .signedIn(userViewModel: viewModel)
                         case .failure:
-                            completion(nil)
+                            self?.authentication.state = .signedOut
                         }
                     }
                 }
                 else {
-                    completion(nil)
+                    self?.authentication.state = .signedOut
                 }
             }
         } else {
-            completion(nil)
+            authentication.state = .signedOut
         }
 
     }

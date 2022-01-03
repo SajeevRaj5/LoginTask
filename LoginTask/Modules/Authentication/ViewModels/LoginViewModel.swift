@@ -17,7 +17,7 @@ final class LoginViewModel: NSObject, ObservableObject {
     }
 
     @Published private(set) var error: Error?
-    @Published var signedInState: SignInState = .signedOut
+    @Published var signedInState: SignInState = .undetermined
 
     private let service: LoginServiceProtocol
     
@@ -37,7 +37,6 @@ final class LoginViewModel: NSObject, ObservableObject {
                     DispatchQueue.main.async {
                         // map to view model
                         let viewModel = UserViewModel(user: User(name: user.name,email: user.email ))
-                        self?.signedInState = .signedIn(userViewModel: viewModel)
                         completion(viewModel)
                     }
                 case .failure(let error):

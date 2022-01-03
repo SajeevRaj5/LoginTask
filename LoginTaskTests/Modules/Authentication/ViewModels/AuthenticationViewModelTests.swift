@@ -12,7 +12,7 @@ import GoogleSignIn
 
 class AuthenticationViewModelTests: XCTestCase {
     
-    var viewModel: AuthenticationViewModel!
+    var viewModel: LoginViewModel!
     var mockService: MockLoginService!
     
     override func setUp() {

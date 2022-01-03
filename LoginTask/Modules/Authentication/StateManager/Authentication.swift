@@ -15,7 +15,7 @@ enum SignInState: Equatable {
 }
 
 class Authentication: ObservableObject {
-    @Published var state: SignInState = .signedOut {
+    @Published var state: SignInState = .undetermined {
         didSet {
             switch state {
             case .signedOut:
