@@ -20,6 +20,12 @@
 	<dict>
 		<key>googleClientID</key>
 		<string>$(GOOGLE_CLIENT_ID)</string>
+		<key>loginUsername</key>
+		<string>$(LOGIN_USERNAME)</string>
+		<key>loginPassword</key>
+		<string>$(LOGIN_PASSWORD)</string>
+		<key>loginEmail</key>
+		<string>$(LOGIN_EMAIL)</string>
 	</dict>
 	<key>CFBundleURLTypes</key>
 	<array>

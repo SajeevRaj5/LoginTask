@@ -65,6 +65,11 @@ final class AutoLoginViewModel {
                     completion(.failure(error))
                 }
             }
+        case .email:
+            guard let username = Configuration.current.loginUsername,
+                  let email = Configuration.current.loginEmail else { return }
+            let viewModel = UserViewModel(user: User(name: username,email: email))
+            completion(.success(viewModel))
         default:
             break
         }

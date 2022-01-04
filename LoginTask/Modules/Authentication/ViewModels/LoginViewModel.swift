@@ -18,6 +18,10 @@ final class LoginViewModel: NSObject, ObservableObject {
 
     @Published private(set) var error: Error?
     @Published var signedInState: SignInState = .undetermined
+    
+    //MARK: - PROPERTIES
+    @Published var username: String = ""
+    @Published var password: String = ""
 
     private let service: LoginServiceProtocol
     
@@ -46,5 +50,28 @@ final class LoginViewModel: NSObject, ObservableObject {
         default:
             break
         }
+    }
+    
+    func signIn(username: String,
+                  password: String,
+                  completion: @escaping (UserViewModel) -> ()) {
+        if username.isEmpty || password.isEmpty {
+            let emptyError = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey : "Fields cannot be empty"])
+            self.error = emptyError
+            return
+        }
+        if (username != Configuration.current.loginUsername) || (password != Configuration.current.loginPassword) {
+            let emptyError = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey : "Incorrect credentials"])
+            self.error = emptyError
+            return
+        }
+        let viewModel = UserViewModel(user: User(name: username,email: Configuration.current.loginEmail ?? "" ))
+        clearValues()
+        completion(viewModel)
+    }
+    
+    private func clearValues() {
+        username = ""
+        password = ""
     }
 }

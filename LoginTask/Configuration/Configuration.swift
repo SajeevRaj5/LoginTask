@@ -25,7 +25,14 @@ class Configuration {
         } else {
             googleClientID = nil
         }
+        
+        loginUsername = all["loginUsername"] as? String
+        loginPassword = all["loginPassword"] as? String
+        loginEmail = all["loginEmail"] as? String
     }
     
     let googleClientID: String?
+    let loginUsername: String?
+    let loginPassword: String?
+    let loginEmail: String?
 }
