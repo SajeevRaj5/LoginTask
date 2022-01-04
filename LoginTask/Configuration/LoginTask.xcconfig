@@ -11,5 +11,5 @@
 GOOGLE_CLIENT_ID = 686900365153-42p9bnd5joqk5rt41fqjthe1u89mqlp1.apps.googleusercontent.com
 
 LOGIN_USERNAME = Abcd
-LOGIN_PASSWORD = Abcd1234
+LOGIN_PASSWORD = abcd1234
 LOGIN_EMAIL = abcd@gmail.com
